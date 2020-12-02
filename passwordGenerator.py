@@ -41,11 +41,15 @@ def addDigit(password):
     
 
 def main():
-    firstWord = genListFromFile('descriptiveWord.txt')
-    secondWord = genListFromFile('thingWord.txt')
-    password = f'{random.choice(firstWord).capitalize()}{random.choice(secondWord).capitalize()}'
-    password = addSpecialChar(password)
-    password = addDigit(password)
-    print(password)
-    
+    while True:
+        firstWord = genListFromFile('descriptiveWord.txt')
+        secondWord = genListFromFile('thingWord.txt')
+        password = f'{random.choice(firstWord).capitalize()}{random.choice(secondWord).capitalize()}'
+        password = addSpecialChar(password)
+        password = addDigit(password)
+        print(password)
+        resume = input('press x to exit, any other key to generate another: ')
+        if resume == 'x':
+            break
+        
 main()
