@@ -44,3 +44,16 @@ mother
 father
 brother
 sister
+camp
+carpenter
+priest
+bishop
+saint
+sponge
+squid
+computer
+child
+ninja
+baker
+trombone
+trumpet
