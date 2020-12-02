@@ -1,5 +1,4 @@
 squishy
-runny
 slick
 slippery
 burnt
@@ -8,7 +7,6 @@ extra
 spicy
 mild
 thick
-porous
 radical
 amazing
 simple
@@ -29,3 +27,14 @@ ecstatic
 sincere
 electric
 smoking
+twisted
+fried
+ripped
+dramatic
+sarcastic
+empathetic
+telepathic
+psychotic
+chilly
+tasty
+toxic
