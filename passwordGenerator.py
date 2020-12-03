@@ -1,14 +1,6 @@
 import random
 
 
-def genListFromFile(file):
-    lines = []
-    with open(file, 'r') as filehandle:
-        for line in filehandle:
-            lines.append(line.strip())
-    return lines
-
-
 def addSpecialChar(password):
     if 's' in password:
         password = password.replace('s', '$')
@@ -39,6 +31,14 @@ def addDigit(password):
     else:
         return password + '69'
     
+
+def genListFromFile(file):
+    lines = []
+    with open(file, 'r') as filehandle:
+        for line in filehandle:
+            lines.append(line.strip())
+    return lines
+
 
 def main():
     while True:
