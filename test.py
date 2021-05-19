@@ -1,63 +1,91 @@
-# my 2 partners and I worked together on this program.
+# Black Jack Game
 
-import random 
-import time
-
-R='\033[0;31m'    # red
-BR='\033[1;31m'   # bold red
-G='\033[0;32m'    # green
-BG='\033[1;32m'   # bold green
-Y='\033[0;33m'    # yellow
-BY='\033[1;33m'   # bold yellow
-B='\033[0;34m'    # blue
-BB='\033[1;34m'   # bold blue
-P='\033[0;35m'    # purple
-BP='\033[1;35m'   # bold purple
-A='\033[0;36m'    # aqua
-BA='\033[1;36m'   # bold aqua
-X='\033[0m'       # reset
+import random
+import os
 
 
-def askQuestion(question):
-    
-    print(question.pop(0))
-    answerKey = question[0]
-    random.shuffle(question)
-    for each in question:
-        print(each, end=', ')
-        
-    response = input('\nType your answer here: ')
-    if response == answerKey:
-        print('correct!')
-        return True
+# Making the deck of cards
+def makeDeck():
+    deckOfCards = []
+    for suits in '♤♡♧♢': 
+        for digit in range(2, 11):
+            deckOfCards.append(f'{digit}{suits}')
+    for suits in '♤♡♧♢':
+        for face in 'JQKA':
+            deckOfCards.append(f'{face}{suits}')
+    random.shuffle(deckOfCards)
+    return deckOfCards
+
+
+# Using the number of players to deal the cards
+def dealCards(numOfPlayers):
+    numOfCards = 2 * numOfPlayers
+    return numOfCards
+
+
+# Defines the value of each hand based on the card value(s)
+def handValue(hand):
+    handValue = 0
+    for card in hand:
+        if card[0:2] == '10':
+            handValue += 10
+        elif card[0].isdigit():
+             handValue += int(card[0])
+        elif card[0] == 'J' or card[0] == 'Q' or card[0] == 'K':
+            handValue += 10
+        else:
+            if handValue + 11 <= 21:
+                handValue += 1
+            else:
+                handValue += 11
+    return handValue
+
+# Determines whether the dealer or the user/main player won the game of Blackjack
+def winningValue(player, dealer):
+    if handValue(dealer) > 21:
+        return 'The dealer has busted!'
+    elif handValue(player) > 21:
+        return 'The player has busted!'
+    elif handValue(dealer) == 21:
+        return 'The dealer has blackjack and has won the game!'
+    elif handValue(player) == 21:
+        return 'The player has blackjack and has won the game!'
+    elif handValue(dealer) > handValue(player):
+        return 'The dealer is closer to 21 which means the dealer wins!'
     else:
-        print(f'Wrong...The correct answer is {answerKey}')
-        return False
-            
-            
+        return 'The player is closer to 21 which means the player wins!'
+        
+
+
+
+# Main
 def main():
+    os.system('clear')
+    deckOfCards = makeDeck()
+    numOfPlayers = eval(input('Enter a number of players: '))
+    playerHands = {}
     
-    f = open('questions.csv', 'r')
-    questions = f.read().split('\n')
-    random.shuffle(questions)
-    f.close()
+   
+    # numOfCards = dealCards(numOfPlayers)
+    handList = []
+    handList.append(deckOfCards.pop())
+    handList.append(deckOfCards.pop())
+    playerHands['dealer'] = handList.copy()
     
-    total = len(questions)
-    correct = 0
-    # 3bii this is where the list is utilized
-    for each in range(len(questions)):
-        if askQuestion(questions.pop(0).split(',')):
-            correct += 1
-    percentCorrect = correct/total * 100
     
-    print(f'You got {percentCorrect:.2f}% of the questions correct.')
+    for i in range(numOfPlayers):
+        handList = []
+        for j in range(2):
+            handList.append(deckOfCards.pop())
+        playerHands[f'player{i + 1}'] = handList.copy()
+   
+    for each in playerHands:
+        if each == 'dealer':
+            print(f"dealer {playerHands['dealer']} {handValue(playerHands['dealer'])}")
+            print()
+        else:
+            print(f"{each} {playerHands[each]} {handValue(playerHands[each])}")
+            print(winningValue(playerHands[each], playerHands['dealer']))
     
-    playAgain = input(f'{R}Do you want to play again? (y / n) {X}')
-    if playAgain == 'y':
-        main()
-    else:
-        quit()
-        
-        
-main()
 
+main()
